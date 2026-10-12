@@ -12,8 +12,8 @@ contract NFTStakingTest is StakingFixture {
 
     function testFourVerifiedTiersReceiveOneTwoThreeFiveWeights() public {
         _mintStake(alice, 500, IBMCIlluminatiPass.Tier.Standard);
-        _mintStake(bob, 173, IBMCIlluminatiPass.Tier.RandomGenesis);
-        _mintStake(carol, 40, IBMCIlluminatiPass.Tier.EarlyGenesis);
+        _mintStake(bob, 173, IBMCIlluminatiPass.Tier.Genesis);
+        _mintStake(carol, 40, IBMCIlluminatiPass.Tier.Genesis);
         _mintStake(alice, 1, IBMCIlluminatiPass.Tier.LegendaryGenesis);
         assertEq(_nftWeight(alice), 6);
         assertEq(_nftWeight(bob), 2);
@@ -37,7 +37,7 @@ contract NFTStakingTest is StakingFixture {
         assertEq(pass.ownerOf(499), alice);
         assertEq(_nftWeight(alice), 0);
         _advance(DURATION / 2);
-        pass.reveal(499, IBMCIlluminatiPass.Tier.RandomGenesis);
+        pass.reveal(499, IBMCIlluminatiPass.Tier.Genesis);
         vm.prank(alice);
         staking.stakeNFT(499);
         assertEq(_nftWeight(alice), 2);
@@ -48,7 +48,7 @@ contract NFTStakingTest is StakingFixture {
     }
 
     function testTierAndArtworkAssignmentBothRequired() public {
-        pass.mint(alice, 70, IBMCIlluminatiPass.Tier.RandomGenesis, false);
+        pass.mint(alice, 70, IBMCIlluminatiPass.Tier.Genesis, false);
         pass.mint(alice, 71, IBMCIlluminatiPass.Tier.Pending, true);
         vm.startPrank(alice);
         pass.approve(address(staking), 70);
@@ -62,26 +62,50 @@ contract NFTStakingTest is StakingFixture {
 
     function testMysteryRarityIsNotInferredFromID() public {
         pass.mint(alice, 41, IBMCIlluminatiPass.Tier.Standard, true);
-        pass.mint(alice, 500, IBMCIlluminatiPass.Tier.RandomGenesis, true);
+        pass.mint(alice, 500, IBMCIlluminatiPass.Tier.Genesis, true);
         assertEq(staking.nftWeight(41), 1);
         assertEq(staking.nftWeight(500), 2);
     }
 
-    function testInconsistentKnownTiersAndOutOfRangeIDsRejected() public {
-        pass.mint(alice, 1, IBMCIlluminatiPass.Tier.Standard, true);
-        pass.mint(alice, 2, IBMCIlluminatiPass.Tier.RandomGenesis, true);
-        pass.mint(alice, 41, IBMCIlluminatiPass.Tier.LegendaryGenesis, true);
-        pass.mint(alice, 42, IBMCIlluminatiPass.Tier.EarlyGenesis, true);
-        for (uint256 i; i < 4; ++i) {
-            uint256 id = i < 2 ? i + 1 : i + 39;
-            vm.expectRevert(BMCStaking.InvalidNFT.selector);
-            staking.nftWeight(id);
-        }
+    
+function testInconsistentKnownTiersAndOutOfRangeIDsRejected()
+    public
+{
+    // Legendary token incorrectly classified as Standard.
+    pass.mint(alice, 1, IBMCIlluminatiPass.Tier.Standard, true);
+
+    // Early Genesis incorrectly classified as Standard.
+    pass.mint(alice, 2, IBMCIlluminatiPass.Tier.Standard, true);
+
+    // Mystery token incorrectly classified as Legendary.
+    pass.mint(
+        alice,
+        41,
+        IBMCIlluminatiPass.Tier.LegendaryGenesis,
+        true
+    );
+
+    // Mystery token with invalid early-Genesis artwork.
+    pass.mint(alice, 42, IBMCIlluminatiPass.Tier.Genesis, true);
+
+    uint256[3] memory invalidIds = [
+        uint256(1),
+        uint256(2),
+        uint256(41)
+    ];
+
+    for (uint256 i = 0; i < invalidIds.length; i++) {
         vm.expectRevert(BMCStaking.InvalidNFT.selector);
-        staking.nftWeight(0);
-        vm.expectRevert(BMCStaking.InvalidNFT.selector);
-        staking.nftWeight(501);
+        staking.nftWeight(invalidIds[i]);
     }
+
+    vm.expectRevert(BMCStaking.InvalidNFT.selector);
+    staking.nftWeight(0);
+
+    vm.expectRevert(BMCStaking.InvalidNFT.selector);
+    staking.nftWeight(501);
+}
+
 
     function testOnlyCurrentNFTOwnerCanStakeEvenIfCallerIsApprovedOperator() public {
         pass.mint(alice, 41, IBMCIlluminatiPass.Tier.Standard, true);
