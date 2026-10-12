@@ -1,0 +1,34 @@
+
+name: BMC Illuminati Staking - Foundry Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Build and Test Staking
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Check Foundry version
+        run: forge --version
+
+      - name: Compile staking contracts
+        run: forge build
+
+      - name: Run staking tests
+        run: forge test -vvv
