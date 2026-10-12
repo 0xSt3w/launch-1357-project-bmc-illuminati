@@ -171,25 +171,45 @@ contract BMCStaking is ReentrancyGuard, IERC721Receiver {
 
     /// @notice Bind the independently reviewed collection exactly once. Never use an invented address.
     /// @dev reviewHash is the hash of the external review/integration artifact, not an onchain audit proof.
-    function configureCollection(address collection_, bytes32 reviewHash)
-        external
-        nonReentrant
-        onlyTreasury
-        beforeActivation
-    {
-        if (address(collection) != address(0) || collection_.code.length == 0 || reviewHash == bytes32(0)) {
-            revert InvalidConfiguration();
-        }
-        if (
-            !IERC165(collection_).supportsInterface(type(IERC721).interfaceId)
-                || !IERC165(collection_).supportsInterface(type(IBMCIlluminatiPass).interfaceId)
-        ) {
-            revert InvalidConfiguration();
-        }
-        collection = IBMCIlluminatiPass(collection_);
-        collectionReviewHash = reviewHash;
-        emit CollectionConfigured(collection_, reviewHash);
+  
+function configureCollection(address collection_, bytes32 reviewHash)
+    external
+    nonReentrant
+    onlyTreasury
+    beforeActivation
+{
+    if (
+        address(collection) != address(0) ||
+        collection_.code.length == 0 ||
+        reviewHash == bytes32(0)
+    ) {
+        revert InvalidConfiguration();
     }
+
+    // Check ERC-721 support.
+    try IERC165(collection_).supportsInterface(
+        type(IERC721).interfaceId
+    ) returns (bool supported) {
+        if (!supported) revert InvalidConfiguration();
+    } catch {
+        revert InvalidConfiguration();
+    }
+
+    // Check the expected BMC PASS supply interface.
+    try IBMCIlluminatiPass(collection_).totalSupply()
+        returns (uint256 supply)
+    {
+        if (supply > 500) revert InvalidConfiguration();
+    } catch {
+        revert InvalidConfiguration();
+    }
+
+    collection = IBMCIlluminatiPass(collection_);
+    collectionReviewHash = reviewHash;
+
+    emit CollectionConfigured(collection_, reviewHash);
+}
+
 
     /// @notice Exact-allowance funding from the designated treasury only; measured net of incoming fees.
     /// @dev Funding is irrevocably reserved for this program. Direct token transfers are not funding.
