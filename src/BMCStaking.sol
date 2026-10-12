@@ -473,20 +473,29 @@ function nftWeight(uint256 tokenId)
 }
 
 
-    function _checkpoint(address owner) internal {
-        _updatePools();
-        Account storage a = accounts[owner];
-        uint256[3] memory weights = [a.principal, a.nftWeight, a.bonusWeight];
-        for (uint256 i; i < 3; ++i) {
-            Pool storage p = pools[i];
-            Reward storage r = rewards[owner][i];
-            (uint256 whole, uint256 remainder) = _earned(weights[i], p.rewardPerWeight - r.index, r.remainder);
-            r.accrued += whole;
-            p.accrued += whole;
-            r.remainder = remainder;
-            r.index = p.rewardPerWeight;
-        }
+function onERC721Received(
+    address operator,
+    address from,
+    uint256 tokenId,
+    bytes calldata
+)
+    external
+    view
+    override
+    returns (bytes4)
+{
+    if (
+        msg.sender != address(collection) ||
+        operator != address(this) ||
+        from != expectedNFTOwner ||
+        from == address(0) ||
+        tokenId != expectedNFTId
+    ) {
+        revert InvalidNFT();
     }
+
+    return IERC721Receiver.onERC721Received.selector;
+}
 
     function _updatePools() internal {
         for (uint256 i; i < 3; ++i) {
