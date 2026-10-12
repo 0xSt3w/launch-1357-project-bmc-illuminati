@@ -1,3 +1,4 @@
+
 [profile.default]
 src = "src"
 test = "test"
@@ -10,7 +11,12 @@ optimizer_runs = 200
 bytecode_hash = "none"
 ffi = false
 fs_permissions = []
-remappings = ["@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/", "forge-std/=lib/forge-std/src/"]
+
+remappings = [
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+    "forge-std/=lib/forge-std/src/",
+    "@chainlink/contracts/=lib/chainlink/contracts/"
+]
 
 [profile.default.fuzz]
 runs = 512
