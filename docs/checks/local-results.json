@@ -1,0 +1,85 @@
+{
+  "timestampUTC": "2026-10-12T02:24:34.627023+00:00",
+  "forgeVersion": "forge Version: 1.8.5\nCommit SHA: 51a52c59cffd940f76eddd0b4bb1791aa4b5ac7f\nBuild Timestamp: 2026-10-05T17:18:54.332175693Z (1791220734)\nBuild Profile: dist",
+  "commands": [
+    {
+      "name": "format",
+      "command": [
+        "forge",
+        "fmt"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "name": "forge-build",
+      "command": [
+        "forge",
+        "build"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "name": "forge-test",
+      "command": [
+        "forge",
+        "test"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "name": "extended-fuzz",
+      "command": [
+        "forge",
+        "test",
+        "--match-test",
+        "testFuzz.*",
+        "--fuzz-runs",
+        "10000"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "name": "empty-environment-test",
+      "command": [
+        "env",
+        "-i",
+        "/home/imd1/.foundry/bin/forge",
+        "test",
+        "--threads",
+        "4"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "name": "coverage",
+      "command": [
+        "forge",
+        "coverage",
+        "--no-match-contract",
+        "StakingInvariantTest",
+        "--report",
+        "summary"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "name": "format-check",
+      "command": [
+        "forge",
+        "fmt",
+        "--check"
+      ],
+      "exitStatus": 0
+    },
+    {
+      "name": "imd-launch-check",
+      "command": [
+        "imd",
+        "launch",
+        "check",
+        "."
+      ],
+      "exitStatus": 1
+    }
+  ]
+}

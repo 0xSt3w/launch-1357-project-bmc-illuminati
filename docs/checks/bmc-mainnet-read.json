@@ -1,0 +1,16 @@
+{
+  "observedAtUTC": "2026-10-12T02:15:36.496394+00:00",
+  "rpc": "https://ethereum-rpc.publicnode.com",
+  "chainId": 1,
+  "blockNumber": 26173332,
+  "address": "0x38224239f2BDae357D47cb864BC533d7f72dF961",
+  "runtimeBytes": 2847,
+  "runtimeSha256": "b0ae261c881b8c6da58e46652b6b0ced43844d4cabb3174c6e710f3de2e45976",
+  "reads": {
+    "name()(string)": "\"BMC Illuminati\"",
+    "symbol()(string)": "\"BMC\"",
+    "decimals()(uint8)": "18",
+    "totalSupply()(uint256)": "999919704944014853910397186 [9.999e26]"
+  },
+  "scope": "Read-only public RPC snapshot. Not source verification, proof of fee semantics, fork integration test or an independent audit."
+}

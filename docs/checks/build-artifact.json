@@ -1,0 +1,67 @@
+{
+  "generatedAtUTC": "2026-10-12T02:26:03.498416+00:00",
+  "contract": "BMCStaking",
+  "solc": "0.8.26",
+  "runtimeBytes": 13292,
+  "initcodeBytesExcludingConstructorArguments": 13572,
+  "runtimeTemplateSha256": "fc3ed0c40739fc4c0cf84c255db0d6aac18d08413ee97b372f38a458b682d1f8",
+  "initcodeSha256": "f4781230a57307b54bf0c6f3ac8e93fff67e8908342e8427ec65a90daa9f8578",
+  "linkReferences": {},
+  "immutableReferences": {
+    "2037": [
+      {
+        "start": 1273,
+        "length": 32
+      },
+      {
+        "start": 2153,
+        "length": 32
+      },
+      {
+        "start": 2969,
+        "length": 32
+      },
+      {
+        "start": 3150,
+        "length": 32
+      },
+      {
+        "start": 3471,
+        "length": 32
+      },
+      {
+        "start": 5535,
+        "length": 32
+      },
+      {
+        "start": 6079,
+        "length": 32
+      },
+      {
+        "start": 6975,
+        "length": 32
+      },
+      {
+        "start": 7345,
+        "length": 32
+      },
+      {
+        "start": 9609,
+        "length": 32
+      },
+      {
+        "start": 9684,
+        "length": 32
+      },
+      {
+        "start": 9815,
+        "length": 32
+      },
+      {
+        "start": 11360,
+        "length": 32
+      }
+    ]
+  },
+  "note": "Runtime contains a treasury immutable to be filled at deployment. This is a build template hash, not a live deployed runtime hash."
+}

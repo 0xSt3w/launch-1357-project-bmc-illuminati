@@ -1,0 +1,151 @@
+$ forge test
+No files changed, compilation skipped
+
+Ran 3 tests for test/AccountingBounds.t.sol:AccountingBoundsTest
+[PASS] testMaximumLinkedCapCannotOverflowOrDuplicatePrincipalWeight() (gas: 2177172)
+[PASS] testMaximumSupportedFundingAndPrincipalDoNotOverflow() (gas: 2752474)
+[PASS] testSingleRawUnitPrincipalWithMaximumRewardsDoesNotOverflowIndex() (gas: 1607789)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 6.83ms (5.38ms CPU time)
+
+Ran 5 tests for test/Reentrancy.t.sol:ReentrancyTest
+[PASS] testNFTReceiverCannotReenterRewardClaimAndSafeExitStillSucceeds() (gas: 2096622)
+[PASS] testRecoveryCannotReenterAnotherRecovery() (gas: 1056761)
+[PASS] testRejectingNFTReceiverRollsBackAccountingAndCanRetry() (gas: 2375791)
+[PASS] testTokenCallbackCannotReenterFundingOrActivation() (gas: 506043)
+[PASS] testTokenCallbacksCannotReenterDepositWithdrawalOrClaim() (gas: 2066168)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.59ms (5.18ms CPU time)
+
+Ran 16 tests for test/Funding.t.sol:FundingTest
+[PASS] testCannotStakeBeforeActivation() (gas: 67536)
+[PASS] testDefaultsAndFixedToken() (gas: 128512)
+[PASS] testDirectDonationsCannotIncreaseBudgetsOrWeights() (gas: 859806)
+[PASS] testExactAllocationOfActualFunding() (gas: 895286)
+[PASS] testInvalidConfigurationAndWrongCollectionABI() (gas: 1463344)
+[PASS] testNoFundingOrConfigurationChangesAfterActivation() (gas: 788437)
+[PASS] testNoPrincipalOrArbitrarySweepAdministrativeFunction() (gas: 968655)
+[PASS] testOnlyTreasuryControlsFundingConfigurationAndRecovery() (gas: 832407)
+[PASS] testProgramParametersCanChangeBeforeActivation() (gas: 280877)
+[PASS] testRejectsInvalidTreasuries() (gas: 370531)
+[PASS] testRejectsZeroTreasuryConstructor() (gas: 3839)
+[PASS] testReserveIsBoundedAndDoesNotChangeEarnedRewards() (gas: 1434947)
+[PASS] testSplitRoundingGoesToReserveAndFundingAccumulates() (gas: 1015269)
+[PASS] testUnconfiguredStateBlocksActivationFundingAndNFTReads() (gas: 253008)
+[PASS] testUnfundedAndNegligiblyFundedProgramsCannotStart() (gas: 513479)
+[PASS] testWrongChainCannotFundOrActivate() (gas: 286634)
+Suite result: ok. 16 passed; 0 failed; 0 skipped; finished in 9.56ms (6.16ms CPU time)
+
+Ran 8 tests for test/Settlement.t.sol:SettlementTest
+[PASS] testCannotRecoverIdleEmissionsOrDustEarly() (gas: 103412)
+[PASS] testDustRecoveryPreservesEveryAccruedWholeUnitIndefinitely() (gas: 3959243)
+[PASS] testFinalRecoveryAfterPartialIdleRecoveryCannotRecoverTwice() (gas: 1608255)
+[PASS] testFinalRemainderRequiresAllPositionsExited() (gas: 1400623)
+[PASS] testIdleRecoveryLeavesPrincipalAndUnclaimedRewardsUntouched() (gas: 1983701)
+[PASS] testRepeatedClaimsCannotExceedBudgetsAndDoNotEraseAccountFractions() (gas: 20815212)
+[PASS] testTinyRewardsPreservePerAccountFractionAcrossZeroValueCheckpoints() (gas: 4118623)
+[PASS] testUnusedProgramReturnsOnlyRewardsToTreasuryAfterExpiry() (gas: 824915)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 20.77ms (18.60ms CPU time)
+
+Ran 13 tests for test/TokenStaking.t.sol:TokenStakingTest
+[PASS] testBrokenTreasuryCannotBlockPrincipalWithdrawals() (gas: 1029232)
+[PASS] testDepositClaimAndWithdraw() (gas: 1098983)
+[PASS] testFuzzProportionalRewardsAndPrincipalConservation(uint96,uint96,uint32) (runs: 512, μ: 1737760, ~: 1749392)
+[PASS] testLateDepositsDoNotCaptureIdleEmissions() (gas: 919297)
+[PASS] testNobodyElseCanWithdrawOrClaimAnOwnersBalance() (gas: 673974)
+[PASS] testPartialWithdrawalsCheckpointOldWeight() (gas: 1482224)
+[PASS] testPauseBlocksNewStakesButNotExitsOrRewards() (gas: 1434805)
+[PASS] testProgramEndCapsRewardsAndKeepsWithdrawalsAndClaimsOpen() (gas: 1256680)
+[PASS] testRewardReserveDeficitDoesNotTrapSolventPrincipal() (gas: 1243728)
+[PASS] testSameBlockRoundTripAndClaimRejected() (gas: 805922)
+[PASS] testStaggeredDepositsReceiveOnlyTheirTimeWeightedShare() (gas: 1361648)
+[PASS] testWithdrawnAccountsKeepEarnedRewardsButStopAccruing() (gas: 1126780)
+[PASS] testZeroOversizedAndInsufficientAllowanceDepositsRevert() (gas: 382558)
+Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 281.24ms (284.20ms CPU time)
+
+Ran 11 tests for test/TransferFees.t.sol:TransferFeesTest
+[PASS] testDepositWithdrawalAndClaimFeesNeverSpendAnotherOwnersPrincipal() (gas: 2061431)
+[PASS] testFundingBudgetsUseNetReceipt() (gas: 929260)
+[PASS] testFuzzFeeOnTransferConservesGrossBudgets(uint16,uint96) (runs: 512, μ: 1653474, ~: 1656560)
+[PASS] testMinReceiptProtectsClaimsAndWithdrawalsAfterFeeIncrease() (gas: 2030823)
+[PASS] testMinReceiptProtectsDepositAndFailureIsAtomic() (gas: 1073520)
+[PASS] testMinReceiptProtectsFundingAndFailureIsAtomic() (gas: 434250)
+[PASS] testNoReturnERC20TransfersSupportedAndFalseReturnsRevert() (gas: 1988011)
+[PASS] testRawUnitAccountingWorksWithoutAssumingEighteenDecimals() (gas: 1621608)
+[PASS] testSurchargeCannotBePaidFromRewardReservesOrOtherPrincipal() (gas: 2145751)
+[PASS] testTreasuryRecoveryFeesAreDebitedOnlyFromItsAllocation() (gas: 986987)
+[PASS] testUnsupportedReflectionAndZeroReceiptRevert() (gas: 1257316)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 281.17ms (284.39ms CPU time)
+
+Ran 13 tests for test/NFTStaking.t.sol:NFTStakingTest
+[PASS] testCustodyPreventsOwnershipChangesAndDoubleStaking() (gas: 901475)
+[PASS] testExitChangesOwnerButOldEarnedRewardsRemainWithDepositor() (gas: 1924506)
+[PASS] testFourVerifiedTiersReceiveOneTwoThreeFiveWeights() (gas: 2800096)
+[PASS] testInconsistentKnownTiersAndOutOfRangeIDsRejected() (gas: 527774)
+[PASS] testInvalidRecipientsDoNotDestroyNFTPosition() (gas: 910816)
+[PASS] testMysteryRarityIsNotInferredFromID() (gas: 261605)
+[PASS] testNFTWithdrawAndClaimAfterProgramEnd() (gas: 1193766)
+[PASS] testOnlyCurrentNFTOwnerCanStakeEvenIfCallerIsApprovedOperator() (gas: 898828)
+[PASS] testPendingNFTCannotStakeThenFinalGenesisCanStakeWithoutBackpay() (gas: 1211205)
+[PASS] testSameBlockNFTWithdrawalFailsAndRewardIsZero() (gas: 777706)
+[PASS] testTierAndArtworkAssignmentBothRequired() (gas: 402459)
+[PASS] testUnsolicitedSafeTransfersAndForgedCallbacksRejected() (gas: 1528280)
+[PASS] testWithdrawalsWorkWhenPausedAndMetadataBreaks() (gas: 1290177)
+Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 293.72ms (8.15ms CPU time)
+
+Ran 1 test for test/StakingInvariant.t.sol:StakingInvariantTest
+[PASS]
+StakingInvariantTest invariants:
+[PASS] invariantAllClaimableRewardsFitTheirOwnFundedBudgets
+[PASS] invariantCombinedExposureNeverExceedsTwentyPercent
+[PASS] invariantEveryOwnerRetainsTheirMeasuredPrincipal
+[PASS] invariantNFTCustodyAndWeightsAreUnique
+[PASS] invariantPrincipalSolventAndFundingConserved
+ StakingInvariantTest invariants (runs: 128, calls: 16384, reverts: 0)
+
+╭----------------+---------------------+-------+---------+----------╮
+| Contract       | Selector            | Calls | Reverts | Discards |
++===================================================================+
+| StakingHandler | advance             | 1221  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | changeFee           | 1291  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | claim               | 1279  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | deposit             | 1195  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | donate              | 1269  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | pause               | 1236  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | recoverDust         | 1289  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | recoverIdle         | 1230  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | recoverReserve      | 1268  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | stakeNFT            | 1271  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | transferUnstakedNFT | 1249  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | withdraw            | 1266  | 0       | 0        |
+|----------------+---------------------+-------+---------+----------|
+| StakingHandler | withdrawNFT         | 1320  | 0       | 0        |
+╰----------------+---------------------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 14.66s (14.66s CPU time)
+
+Ran 10 tests for test/CombinedStaking.t.sol:CombinedStakingTest
+[PASS] testASecondNFTDepositInSameBlockCannotClaimHistoricalBonus() (gas: 1151589)
+[PASS] testAllTokenPrincipalWithdrawnStopsBonusButNFTEarnsNormally() (gas: 1824965)
+[PASS] testBonusIsBoundedByBothPrincipalAndNFTLinkedExposure() (gas: 2145246)
+[PASS] testBonusWeightIsNotAnAPYOrAPerAccountPayoutPercentage() (gas: 916281)
+[PASS] testFallingBelowMinimumStopsBonusAndRestakingHasNoBackpay() (gas: 2363257)
+[PASS] testLosingLastNFTStopsBonusImmediatelyAndRetainsEarnedBonus() (gas: 1900136)
+[PASS] testMinimumIsMeasuredAfterTransferFees() (gas: 1184166)
+[PASS] testNFTTransferDoesNotCreateOverlappingBonusOrStealPriorBonus() (gas: 3054093)
+[PASS] testPartialNFTExitReducesBonusExposureBeforeNextInterval() (gas: 3444067)
+[PASS] testTokenAndNFTAreBothRequiredAndDepositOrderDoesNotMatter() (gas: 2679784)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 14.67s (12.66ms CPU time)
+
+Ran 9 test suites in 14.68s (30.24s CPU time): 80 tests passed, 0 failed, 0 skipped (80 total tests)
+
+Exit status: 0

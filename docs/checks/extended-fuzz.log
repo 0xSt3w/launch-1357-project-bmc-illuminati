@@ -1,0 +1,14 @@
+$ forge test --match-test testFuzz.* --fuzz-runs 10000
+No files changed, compilation skipped
+
+Ran 1 test for test/TransferFees.t.sol:TransferFeesTest
+[PASS] testFuzzFeeOnTransferConservesGrossBudgets(uint16,uint96) (runs: 10000, μ: 1652878, ~: 1656409)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 3.62s (3.61s CPU time)
+
+Ran 1 test for test/TokenStaking.t.sol:TokenStakingTest
+[PASS] testFuzzProportionalRewardsAndPrincipalConservation(uint96,uint96,uint32) (runs: 10000, μ: 1737180, ~: 1749440)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 3.65s (3.65s CPU time)
+
+Ran 2 test suites in 3.66s (7.27s CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
+
+Exit status: 0

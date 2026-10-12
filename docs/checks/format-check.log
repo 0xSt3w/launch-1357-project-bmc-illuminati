@@ -1,0 +1,3 @@
+$ forge fmt --check
+
+Exit status: 0

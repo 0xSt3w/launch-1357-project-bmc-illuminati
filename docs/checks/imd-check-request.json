@@ -1,0 +1,27 @@
+{
+  "action": "job.open",
+  "input": {
+    "objective": "BMC ILLUMINATI source-only staking ecosystem for Ethereum mainnet chain ID 1. Implement a non-upgradeable Solidity 0.8.26 Foundry project at repository root, using vendored audited OpenZeppelin libraries, with contracts, meaningful success/failure tests, fuzzing/accounting invariants, interface and operational documentation. Use only the existing BMC ERC20 at 0x38224239f2BDae357D47cb864BC533d7f72dF961 for staking principal and rewards. Never create or mint a replacement token. Token staking rewards are proportional to measured net deposits. NFT staking uses custodial verified ERC721 ownership, final tierOf and artwork-assignment reads: Standard weight 1, Random Genesis 2, Early Genesis IDs 2-40 weight 3, Legendary Genesis ID 1 weight 5. The 500 NFT collection includes 37 random Genesis in the mystery phase and 423 Standard; never infer mystery rarity from IDs. Reject pending reveal NFTs, prevent double staking and unauthorized withdrawals/claims. Combined bonus weight is min(principal, NFT weight times preconfigured linked-principal-per-weight cap) times 20%, only when principal meets a preconfigured minimum and NFTs are staked. This is a weight cap, not a guaranteed payout percentage or APY. Use separate fixed reward budgets funded before activation: 55% token staking, 25% NFT staking, 15% combined bonus, 5% uncommitted reserve (allocation rounding to reserve). Initial duration 365 days, configurable only before activation. No later funding, budget reductions, overlapping bonus registrations, arbitrary principal withdrawals, unlimited approvals, oracle, swap, bridge, IMD rewards, IMD buyback bot or integration with burning. Only the stake owner claims or withdraws. Use reentrancy guards, SafeERC20, safe ERC721 custody, actual incoming and outgoing balance deltas, minimum-received protection, checkpoint-before-weight-change accounting, same-block stake/withdrawal restrictions, pool payout hard caps and principal/reserve segregation. Handle fee-on-transfer behavior, exhaustion, reveal and ownership transitions, rounding dust and idle emissions. Emergency multisig may pause only new deposits, never claims or safe withdrawals. Treasury is explicitly designated and must be an independently verified multisig; it may recover only the uncommitted reserve, expired idle emissions and final dust after all positions have exited while preserving earned whole-unit claims indefinitely. Document trust assumptions and incompatibility with sender-surcharge/rebasing/reflection tokens. Deployment blockers: requester has not yet supplied the real multisig treasury address, chosen raw-unit minimum and linked-principal cap, reviewed deployed BMC Illuminati Pass address or final interface. Proposed integration ABI is tierOf(uint256) returning Pending/Standard/RandomGenesis/EarlyGenesis/LegendaryGenesis enum values 0-4 and isArtworkAssigned(uint256) returning bool, plus ERC165 support; verify it before deployment or revise and independently review the integration. Live BMC source, decimals and fee semantics must also be verified before deployment. No guessed external addresses. Generate source, tests and documentation only; do not deploy, enable staking, request wallet approvals/transfers, open paid work or publish a GitHub repository. Independent security review and explicit requester authorization are mandatory before any future launch. Run forge build, forge test and forge fmt --check with solc pinned to 0.8.26. Run this free IMD input check and report its blockers without interpreting it as a source-code audit.",
+    "github": false,
+    "shape": "chain",
+    "steps": [
+      {
+        "skill": "implement-and-test",
+        "paths": [
+          "src",
+          "test",
+          "lib",
+          "docs",
+          "foundry.toml",
+          "README.md",
+          "DEPENDENCIES.md",
+          "LICENSE",
+          ".gitignore"
+        ]
+      },
+      {
+        "skill": "adversarial-review"
+      }
+    ]
+  }
+}

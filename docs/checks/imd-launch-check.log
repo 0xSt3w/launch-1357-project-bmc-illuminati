@@ -1,0 +1,4 @@
+$ imd launch check .
+/home/imd1/.identitymd/work/fa117565-998a-4aaa-ad09-233e642d4c1e/25583bb8-b7fb-4d2d-9deb-0b6a8f64cd78 has no launch.json
+
+Exit status: 1
