@@ -1,44 +1,91 @@
-// SPDX-License-Identifier: MIT
+
+ // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import {IERC165} from "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import {IBMCIlluminatiPass} from "../../src/interfaces/IBMCIlluminatiPass.sol";
 
-/// @dev TEST ONLY: proves the proposed integration semantics, not the real collection implementation.
+/// @notice Test-only mock matching the real BMC PASS interface.
 contract MockPass is ERC721, IBMCIlluminatiPass {
     mapping(uint256 => Tier) private tiers;
-    mapping(uint256 => bool) private artworkAssigned;
+    mapping(uint256 => uint16) private artworkIds;
+
+    uint256 private mintedCount;
     bool public brokenMetadata;
 
-    constructor() ERC721("Test-only Illuminati Pass", "MOCKPASS") {}
+    constructor()
+        ERC721("Test-only Illuminati Pass", "MOCKPASS")
+    {}
 
-    function mint(address to, uint256 tokenId, Tier tier, bool assigned) external {
+    function mint(
+        address to,
+        uint256 tokenId,
+        Tier tier,
+        bool assigned
+    ) external {
         _mint(to, tokenId);
+
         tiers[tokenId] = tier;
-        artworkAssigned[tokenId] = assigned;
+
+        if (assigned && tier != Tier.Pending) {
+            artworkIds[tokenId] = _defaultArtwork(tokenId, tier);
+        }
+
+        mintedCount++;
     }
 
     function reveal(uint256 tokenId, Tier tier) external {
+        require(_ownerOf(tokenId) != address(0), "not minted");
         tiers[tokenId] = tier;
-        artworkAssigned[tokenId] = true;
+        artworkIds[tokenId] = _defaultArtwork(tokenId, tier);
     }
 
     function setBrokenMetadata(bool broken) external {
         brokenMetadata = broken;
     }
 
-    function tierOf(uint256 tokenId) external view returns (Tier) {
+    function tierOf(uint256 tokenId)
+        external
+        view
+        returns (Tier)
+    {
         require(!brokenMetadata, "metadata unavailable");
+        require(_ownerOf(tokenId) != address(0), "not minted");
         return tiers[tokenId];
     }
 
-    function isArtworkAssigned(uint256 tokenId) external view returns (bool) {
+    function artworkIdOf(uint256 tokenId)
+        external
+        view
+        returns (uint16)
+    {
         require(!brokenMetadata, "metadata unavailable");
-        return artworkAssigned[tokenId];
+        require(_ownerOf(tokenId) != address(0), "not minted");
+        return artworkIds[tokenId];
     }
 
-    function supportsInterface(bytes4 interfaceId) public view override(ERC721, IERC165) returns (bool) {
-        return interfaceId == type(IBMCIlluminatiPass).interfaceId || super.supportsInterface(interfaceId);
+    function totalSupply() external view returns (uint256) {
+        return mintedCount;
+    }
+
+    function _defaultArtwork(uint256 tokenId, Tier tier)
+        private
+        pure
+        returns (uint16)
+    {
+        if (tier == Tier.Pending) return 0;
+
+        if (tier == Tier.LegendaryGenesis) return 1;
+
+        if (tier == Tier.Genesis) {
+            if (tokenId <= 40) return uint16(tokenId);
+            return uint16(41 + ((tokenId - 41) % 37));
+        }
+
+        if (tier == Tier.Standard) {
+            return uint16(1 + ((tokenId - 41) % 423));
+        }
+
+        return 0;
     }
 }
