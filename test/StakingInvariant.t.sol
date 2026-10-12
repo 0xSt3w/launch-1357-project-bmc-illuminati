@@ -222,7 +222,9 @@ pass.mint(bob, 2, IBMCIlluminatiPass.Tier.Genesis, true);
 
 pass.mint(carol, 40, IBMCIlluminatiPass.Tier.Genesis, true);
         pass.mint(alice, 41, IBMCIlluminatiPass.Tier.Standard, true);
-        pass.mint(bob, 173, IBMCIlluminatiPass.Tier.RandomGenesis, true);
+        
+pass.mint(bob, 173, IBMCIlluminatiPass.Tier.Genesis, true);
+
         pass.mint(carol, 500, IBMCIlluminatiPass.Tier.Standard, true);
         handler = new StakingHandler(staking, token, pass, [alice, bob, carol]);
         bytes4[] memory selectors = new bytes4[](13);
