@@ -217,7 +217,8 @@ contract StakingInvariantTest is StakingFixture {
         super.setUp();
         _activate();
         pass.mint(alice, 1, IBMCIlluminatiPass.Tier.LegendaryGenesis, true);
-        pass.mint(bob, 2, IBMCIlluminatiPass.Tier.EarlyGenesis, true);
+
+pass.mint(bob, 2, IBMCIlluminatiPass.Tier.Genesis, true);
         pass.mint(carol, 40, IBMCIlluminatiPass.Tier.EarlyGenesis, true);
         pass.mint(alice, 41, IBMCIlluminatiPass.Tier.Standard, true);
         pass.mint(bob, 173, IBMCIlluminatiPass.Tier.RandomGenesis, true);
