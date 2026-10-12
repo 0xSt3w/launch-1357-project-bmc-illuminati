@@ -528,6 +528,28 @@ function onERC721Received(
 
 
 
+    function _updatePools() internal {
+        for (uint256 i; i < 3; ++i) {
+            Pool storage p = pools[i];
+
+            uint256 vested = _vested(p.budget);
+            uint256 emission = vested - p.emitted;
+
+            p.emitted = vested;
+
+            if (p.totalWeight != 0) {
+                p.allocated += emission;
+
+                p.rewardPerWeight += Math.mulDiv(
+                    emission,
+                    SCALE,
+                    p.totalWeight
+                );
+            }
+        }
+    }
+
+
     function _vested(uint256 budget) internal view returns (uint256) {
         if (!active) return 0;
         return Math.mulDiv(budget, Math.min(block.timestamp, end) - start, duration);
