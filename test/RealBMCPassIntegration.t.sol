@@ -6,7 +6,9 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import {BMCStaking} from "../src/BMCStaking.sol";
 import {MockTreasury} from "./mocks/MockTreasury.sol";
-import {BMCIlluminatiPass} from "./integration/pass/BMCIlluminatiPass.sol";
+
+import {BMCIlluminatiPass} from "../integration/contracts/BMCIlluminatiPass.sol";
+
 
 // Test-only token with burnFrom semantics, installed at the staking contract's fixed BMC address.
 contract IntegrationBMC is ERC20, ERC20Burnable {
