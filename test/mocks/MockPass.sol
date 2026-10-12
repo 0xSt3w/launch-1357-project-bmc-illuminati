@@ -6,6 +6,7 @@ import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {IBMCIlluminatiPass} from "../../src/interfaces/IBMCIlluminatiPass.sol";
 
 /// @notice Test-only mock matching the real BMC PASS interface.
+/// @dev Used only for Foundry tests. Never deploy to mainnet.
 contract MockPass is ERC721, IBMCIlluminatiPass {
     mapping(uint256 => Tier) private tiers;
     mapping(uint256 => uint16) private artworkIds;
@@ -36,6 +37,7 @@ contract MockPass is ERC721, IBMCIlluminatiPass {
 
     function reveal(uint256 tokenId, Tier tier) external {
         require(_ownerOf(tokenId) != address(0), "not minted");
+
         tiers[tokenId] = tier;
         artworkIds[tokenId] = _defaultArtwork(tokenId, tier);
     }
@@ -51,6 +53,7 @@ contract MockPass is ERC721, IBMCIlluminatiPass {
     {
         require(!brokenMetadata, "metadata unavailable");
         require(_ownerOf(tokenId) != address(0), "not minted");
+
         return tiers[tokenId];
     }
 
@@ -61,10 +64,15 @@ contract MockPass is ERC721, IBMCIlluminatiPass {
     {
         require(!brokenMetadata, "metadata unavailable");
         require(_ownerOf(tokenId) != address(0), "not minted");
+
         return artworkIds[tokenId];
     }
 
-    function totalSupply() external view returns (uint256) {
+    function totalSupply()
+        external
+        view
+        returns (uint256)
+    {
         return mintedCount;
     }
 
@@ -73,16 +81,29 @@ contract MockPass is ERC721, IBMCIlluminatiPass {
         pure
         returns (uint16)
     {
-        if (tier == Tier.Pending) return 0;
+        if (tier == Tier.Pending) {
+            return 0;
+        }
 
-        if (tier == Tier.LegendaryGenesis) return 1;
+        if (tier == Tier.LegendaryGenesis) {
+            return 1;
+        }
 
         if (tier == Tier.Genesis) {
-            if (tokenId <= 40) return uint16(tokenId);
+            if (tokenId <= 40) {
+                return uint16(tokenId);
+            }
+
             return uint16(41 + ((tokenId - 41) % 37));
         }
 
         if (tier == Tier.Standard) {
+            // Prevent arithmetic underflow for deliberately
+            // invalid token IDs used in negative tests.
+            if (tokenId < 41 || tokenId > 500) {
+                return 1;
+            }
+
             return uint16(1 + ((tokenId - 41) % 423));
         }
 
