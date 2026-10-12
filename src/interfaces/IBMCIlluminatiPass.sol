@@ -22,3 +22,4 @@ interface IBMCIlluminatiPass is IERC721 {
         view
         returns (uint16);
 }
+function totalSupply() external view returns (uint256);
