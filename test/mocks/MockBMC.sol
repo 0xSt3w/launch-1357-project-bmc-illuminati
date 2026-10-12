@@ -18,6 +18,7 @@ contract MockBMC is ERC20 {
 
     constructor() ERC20("Test-only BMC behavior", "MOCK") {}
 
+   
     function mint(address to, uint256 amount) external {
         _mint(to, amount);
     }
@@ -26,6 +27,13 @@ contract MockBMC is ERC20 {
         _burn(from, amount);
     }
 
+    /// @notice Simulates ERC20Burnable.burnFrom for integration tests.
+    function burnFrom(address account, uint256 amount) external {
+        _spendAllowance(account, msg.sender, amount);
+        _burn(account, amount);
+    }
+
+   
     function setFee(uint256 bps) external {
         require(bps <= 10_000);
         feeBps = bps;
@@ -34,6 +42,7 @@ contract MockBMC is ERC20 {
     function setSurcharge(uint256 bps) external {
         surchargeBps = bps;
     }
+
 
     function setReflection(uint256 bps) external {
         reflectionBps = bps;
