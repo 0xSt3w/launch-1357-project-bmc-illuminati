@@ -24,6 +24,13 @@ contract MockBMC is ERC20 {
 
     function burn(address from, uint256 amount) external {
         _burn(from, amount);
+
+    /// @notice Simulates ERC20Burnable.burnFrom for integration tests.
+    function burnFrom(address account, uint256 amount) external {
+        _spendAllowance(account, msg.sender, amount);
+        _burn(account, amount);
+    }
+
     }
 
     function setFee(uint256 bps) external {
