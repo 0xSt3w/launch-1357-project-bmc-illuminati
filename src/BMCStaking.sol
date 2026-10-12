@@ -497,18 +497,36 @@ function onERC721Received(
     return IERC721Receiver.onERC721Received.selector;
 }
 
-    function _updatePools() internal {
+
+    function _checkpoint(address owner) internal {
+        _updatePools();
+
+        Account storage a = accounts[owner];
+
+        uint256[3] memory weights = [
+            a.principal,
+            a.nftWeight,
+            a.bonusWeight
+        ];
+
         for (uint256 i; i < 3; ++i) {
             Pool storage p = pools[i];
-            uint256 vested = _vested(p.budget);
-            uint256 emission = vested - p.emitted;
-            p.emitted = vested;
-            if (p.totalWeight != 0) {
-                p.allocated += emission;
-                p.rewardPerWeight += Math.mulDiv(emission, SCALE, p.totalWeight);
-            }
+            Reward storage r = rewards[owner][i];
+
+            (uint256 whole, uint256 remainder) = _earned(
+                weights[i],
+                p.rewardPerWeight - r.index,
+                r.remainder
+            );
+
+            r.accrued += whole;
+            p.accrued += whole;
+            r.remainder = remainder;
+            r.index = p.rewardPerWeight;
         }
     }
+
+
 
     function _vested(uint256 budget) internal view returns (uint256) {
         if (!active) return 0;
