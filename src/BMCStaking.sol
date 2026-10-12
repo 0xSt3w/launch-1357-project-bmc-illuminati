@@ -394,36 +394,64 @@ contract BMCStaking is ReentrancyGuard, IERC721Receiver {
     }
 
     /// @notice Tier comes from the collection, not the mystery token ID. Pending NFTs earn nothing.
-    function nftWeight(uint256 tokenId) public view returns (uint256) {
-        if (address(collection) == address(0)) revert NotConfigured();
-        if (tokenId == 0 || tokenId > 500) revert InvalidNFT();
-        if (!collection.isArtworkAssigned(tokenId)) revert PendingReveal();
-        IBMCIlluminatiPass.Tier tier = collection.tierOf(tokenId);
-        if (tier == IBMCIlluminatiPass.Tier.Pending) revert PendingReveal();
-        if (tokenId == 1) {
-            if (tier != IBMCIlluminatiPass.Tier.LegendaryGenesis) revert InvalidNFT();
-            return 5;
-        }
-        if (tokenId <= 40) {
-            if (tier != IBMCIlluminatiPass.Tier.EarlyGenesis) revert InvalidNFT();
-            return 3;
-        }
-        if (tier == IBMCIlluminatiPass.Tier.RandomGenesis) return 2;
-        if (tier == IBMCIlluminatiPass.Tier.Standard) return 1;
+   
+function nftWeight(uint256 tokenId)
+    public
+    view
+    returns (uint256)
+{
+    if (address(collection) == address(0))
+        revert NotConfigured();
+
+    if (tokenId == 0 || tokenId > 500)
         revert InvalidNFT();
+
+    IBMCIlluminatiPass.Tier tier =
+        collection.tierOf(tokenId);
+
+    uint16 artwork = collection.artworkIdOf(tokenId);
+
+    if (
+        tier == IBMCIlluminatiPass.Tier.Pending ||
+        artwork == 0
+    ) revert PendingReveal();
+
+    if (tokenId == 1) {
+        if (
+            tier !=
+            IBMCIlluminatiPass.Tier.LegendaryGenesis ||
+            artwork != 1
+        ) revert InvalidNFT();
+
+        return 5;
     }
 
-    function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata)
-        external
-        view
-        returns (bytes4)
-    {
+    if (tokenId <= 40) {
         if (
-            msg.sender != address(collection) || operator != address(this) || from != expectedNFTOwner
-                || from == address(0) || tokenId != expectedNFTId
+            tier != IBMCIlluminatiPass.Tier.Genesis ||
+            artwork != tokenId
         ) revert InvalidNFT();
-        return IERC721Receiver.onERC721Received.selector;
+
+        return 3;
     }
+
+    if (tier == IBMCIlluminatiPass.Tier.Genesis) {
+        if (artwork < 41 || artwork > 77)
+            revert InvalidNFT();
+
+        return 2;
+    }
+
+    if (tier == IBMCIlluminatiPass.Tier.Standard) {
+        if (artwork < 1 || artwork > 423)
+            revert InvalidNFT();
+
+        return 1;
+    }
+
+    revert InvalidNFT();
+}
+
 
     function _checkpoint(address owner) internal {
         _updatePools();
