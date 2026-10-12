@@ -66,7 +66,9 @@ contract SettlementTest is StakingFixture {
         _deposit(alice, 101 ether);
         _deposit(bob, 207 ether);
         _mintStake(alice, 1, IBMCIlluminatiPass.Tier.LegendaryGenesis);
-        _mintStake(bob, 173, IBMCIlluminatiPass.Tier.RandomGenesis);
+       
+_mintStake(bob, 173, IBMCIlluminatiPass.Tier.Genesis);
+
         _advance(DURATION);
         vm.startPrank(alice);
         staking.withdrawBMC(101 ether, 0);
