@@ -33,17 +33,16 @@ contract MockBMC is ERC20 {
         _burn(account, amount);
     }
 
+   
     function setFee(uint256 bps) external {
         require(bps <= 10_000);
         feeBps = bps;
     }
 
-
-    }
-
     function setSurcharge(uint256 bps) external {
         surchargeBps = bps;
     }
+
 
     function setReflection(uint256 bps) external {
         reflectionBps = bps;
