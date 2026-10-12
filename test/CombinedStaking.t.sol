@@ -43,7 +43,7 @@ contract CombinedStakingTest is StakingFixture {
         _deposit(alice, 1000 ether);
         _mintStake(alice, 41, IBMCIlluminatiPass.Tier.Standard);
         assertEq(_bonus(alice), 100 ether); // min(1000, 1 * 500) / 5
-        _mintStake(alice, 42, IBMCIlluminatiPass.Tier.RandomGenesis);
+       _mintStake(alice, 42, IBMCIlluminatiPass.Tier.Genesis);
         assertEq(_bonus(alice), 200 ether); // min(1000, 3 * 500) / 5
         _mintStake(alice, 1, IBMCIlluminatiPass.Tier.LegendaryGenesis);
         assertEq(_bonus(alice), 200 ether); // extra NFTs cannot multiply the same principal
